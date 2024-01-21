@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 public class FestivalPlaylistCuratorAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FestivalPlaylistCuratorAppApplication.class, args);
+		SpringApplication.run(FestivalPlaylistCuratorAppApplication.class, args);		
 	}
+
 
 }

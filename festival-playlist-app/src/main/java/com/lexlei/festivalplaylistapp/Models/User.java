@@ -3,11 +3,9 @@
  * This package includes classes to handle user interactions, festival details, artists, 
  * songs, and playlists.
  */
-
 package com.lexlei.festivalplaylistapp.Models;
 import jakarta.persistence.Entity;
 import java.util.List;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,15 +21,15 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users", schema = "festival_app")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autogenerate ID
     private Integer userID; // Unique primary key identifier. 
     private String firstName; // First name of user.
     private String lastName; // Last name of user.
     private String email; // Email of user.
     private String password; // Password of user account.
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private List<Playlist> playlists; // List of playlists made by the user
 
     /**
