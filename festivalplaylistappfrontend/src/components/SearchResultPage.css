@@ -1,0 +1,26 @@
+/* SearchResultsPage.css */
+.search-result {
+    background-color: #282c34;
+    min-height: 100vh;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.artist-button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.artist-button:hover {
+    background-color: #e7e7e7;
+}

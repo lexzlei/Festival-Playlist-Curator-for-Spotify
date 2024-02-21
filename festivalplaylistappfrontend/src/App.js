@@ -1,23 +1,19 @@
 import './App.css';
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import SpotifyLogin from "./components/SpotifyLogin.js";
+import Home from "./components/Home.js";
+import SearchResultPage from './components/SearchResultPage.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+        <Routes>
+          <Route path="/" element = {<SpotifyLogin/>} />
+          <Route path="/home" element = {<Home />} />
+          <Route path="/search-result" element = {<SearchResultPage />} /> 
+        </Routes>
+    </Router>
+  )
 }
 
-export default App;
+export default App; // exports the App component avaliable for import in other files

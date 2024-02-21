@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 /**
  * Represents a playlist in the Festival Playlist Curator Application.
@@ -27,6 +29,8 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer playlistID; // The unique primary key identifier of this playlist.
     private String playlistName; // the name of this playlist.
+    
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     
     @ManyToOne

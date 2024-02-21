@@ -1,0 +1,49 @@
+/* SpotifyLogin.css */
+.login {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+.login-header {
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.login-header h1 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+  
+.login-header p {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+  
+
+/* Styling for the login button */
+.login button {
+    padding: 10px 20px;
+    font-size: 20px;
+    color: white;
+    background-color: #1DB954; /* Spotify green */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Change background color on hover for visual feedback */
+.login button:hover {
+    background-color: #1ed760;
+}
+
+/* Adding focus style for accessibility */
+.login button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(30, 215, 96, 0.5);
+}

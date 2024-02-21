@@ -4,13 +4,12 @@
  * songs, and playlists.
  */
 package com.lexlei.festivalplaylistapp.Models;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -30,9 +29,8 @@ public class Festival {
     private String location; // Location of the festival
     private Integer year; // Year the festival is taking place
 
-    @OneToMany(mappedBy = "festival")
-    // use Set instead of List because it does not allow duplicate elements
-    private Set<Artist> artists; // Set of artists performing at the festival
+    //@OneToMany(mappedBy = "festival")
+    private List<String> artists; // Set of artists performing at the festival
 
     /**
      * Gets the unique identifier of the festival.
@@ -98,14 +96,14 @@ public class Festival {
      * Gets the artists performing.
      * @return artists.
      */
-    public Set<Artist> getArtists() {
+    public List<String> getArtists() {
         return artists;
     }
 
     /**
      * Sets artists.
      */
-    public void setArtists(Set<Artist> artists) {
+    public void setArtists(List<String> artists) {
         this.artists = artists;
     }
 }
