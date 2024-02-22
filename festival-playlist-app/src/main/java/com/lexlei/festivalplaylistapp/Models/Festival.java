@@ -28,6 +28,7 @@ public class Festival {
     private String festivalName; // Name of festival
     private String location; // Location of the festival
     private Integer year; // Year the festival is taking place
+    private boolean isFound = true; // default to true
 
     //@OneToMany(mappedBy = "festival")
     private List<String> artists; // Set of artists performing at the festival
@@ -105,5 +106,20 @@ public class Festival {
      */
     public void setArtists(List<String> artists) {
         this.artists = artists;
+    }
+
+    /**
+     * Gets the boolean for whether or not the festival has been found.
+     * @return isFound.
+     */
+    public boolean getIsFound() {
+        return isFound;
+    }
+
+    /**
+     * Sets is found boolean.
+     */
+    public void setIsFound(boolean isFound) {
+        this.isFound = isFound;
     }
 }

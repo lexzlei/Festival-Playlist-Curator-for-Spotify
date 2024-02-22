@@ -1,34 +1,49 @@
 /* SpotifyLogin.css */
 .login {
-    text-align: center;
-    background-color: #282c34;
+    position: relative;
+    background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\VideoCapture_20220522-143506 (1).jpg");
+    background-size: cover;
+    background-position: center 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-bottom: 10px;
+    backdrop-filter: blur(5px);
+    z-index: 11;
   }
 
-.login-header {
-    font-size: calc(10px + 2vmin);
-    color: white;
+  .login::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: -1; /* Ensures the overlay is behind the content */
 }
 
 .login-header h1 {
+    text-align: center;
+    color: white;
     margin-bottom: 20px;
-    font-size: 2.5em;
+    font-size: clamp(1.5rem, 4vw, 5rem);
 }
   
 .login-header p {
+    text-align: center;
+    color: white;
     margin-bottom: 20px;
-    font-size: 1.2em;
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
 }
   
 
 /* Styling for the login button */
 .login button {
     padding: 10px 20px;
-    font-size: 20px;
+    font-size: clamp(1.5rem, 2vw, 4.5rem);
     color: white;
     background-color: #1DB954; /* Spotify green */
     border: none;
@@ -46,4 +61,18 @@
 .login button:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(30, 215, 96, 0.5);
+}
+
+.login-header {
+    display: flex;
+    flex-direction: column; /* or 'row' based on layout */
+    justify-content: center;
+    align-items: center;
+}
+
+.login-header img {
+    width: 30vw; /* Adjust as necessary */
+    height: auto;
+    max-width: 300px;
+    min-width: 50px;
 }

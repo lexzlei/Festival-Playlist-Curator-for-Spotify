@@ -36,13 +36,6 @@ public class FestivalService {
         this.festivalRepository = festivalRepository;
         this.artistRepository = artistRepository;
     }
-    /**
-    public static void main(String[] args) {
-        Festival link = searchFestival("ultra miami", 2024);
-        System.out.println(link.getfestivalName());
-        System.out.println(link.getLocation());
-    }
-    */
 
     /**
      * Adds a new festival.
@@ -77,6 +70,8 @@ public class FestivalService {
                 System.out.println(festivalPageUrl);
             } else {
                 System.out.println("No link found");
+                festival.setIsFound(false);
+                return festival;
             }
 
             Document festivalPage = Jsoup.connect(festivalPageUrl)
@@ -112,7 +107,7 @@ public class FestivalService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return festival; //festivalRepository.save(festival);
+        return festival; 
     }
 
     /**

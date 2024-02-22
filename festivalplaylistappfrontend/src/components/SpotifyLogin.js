@@ -1,5 +1,6 @@
 import React from "react";
 import "./SpotifyLogin.css"
+import logo from '../FestbeatsLogo.png';
 
 function SpotifyLogin() {
     const getSpotifyUserLogin = () => {
@@ -17,7 +18,8 @@ function SpotifyLogin() {
     return (
         <div className="login">
             <header className="login-header">
-                <h1>Welcome to the Music Festival Playlist Creator!</h1>
+                <img src={logo} alt="Logo" />
+                <h1>Music Festival Playlist Creator</h1>
                 <p>Please login to Spotify below to continue:</p>
             </header>
             <button onClick={getSpotifyUserLogin}>LOGIN WITH SPOTIFY</button>

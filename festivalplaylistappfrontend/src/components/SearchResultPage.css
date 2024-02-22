@@ -1,26 +1,88 @@
 /* SearchResultsPage.css */
 .search-result {
-    background-color: #282c34;
+    position: relative;
+    background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\FredAgain.jpg");
+    background-size: cover;
+    background-position: center 80%;
     min-height: 100vh;
+    backdrop-filter: blur(5px);
     align-items: center;
     color: white;
-    padding: 20px;
+    padding: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    padding-top: 150px;
+}
+
+.search-result h1 {
+    text-align: center;
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
+}
+
+.search-result h2 {
+    text-align: center;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+}
+
+.search-result::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent black overlay */
+    z-index: -1; /* Ensures the overlay is behind the content */
+}
+
+.artist-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+    width: fit-content;
 }
 
 .artist-button {
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #ddd;
-    background-color: #f0f0f0;
+    border: none;
+    background-color: rgba(58, 58, 58, 0.521);
+    color: white;
+    font-size: clamp(.75rem, 1vw, 1.5rem);
+    padding: 10px, 20px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 5px;
     transition: background-color 0.3s;
 }
 
-.artist-button:hover {
-    background-color: #e7e7e7;
+.artist-button:hover, .artist-button:active {
+    background-color: rgba(0,0,0,.9);
+}
+
+.artist-button.selected {
+    background-color: rgba(0,0,0,.9);
+}
+
+.playlist-name-input {
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    height: 50%;
+}
+
+.generate-playlist-button {
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #047914;
+    border-radius: 4px;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    cursor: pointer;
+}
+
+.generate-playlist-button:hover {
+    background-color: #45a049;
 }

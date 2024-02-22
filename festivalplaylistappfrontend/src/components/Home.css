@@ -1,6 +1,10 @@
 /* Home.css */
 .home-page {
-    background-color: #282c34;
+    position: relative;
+    background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\miami-gallery-2019-5-1600x1066.jpg");
+    background-size: cover;
+    background-position: center 20%;
+    backdrop-filter: blur(5px);
     min-height: 100vh;
     align-items: center;
     color: white;
@@ -8,12 +12,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+}
+
+.home-page::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent black overlay */
+    z-index: -1; /* Ensures the overlay is behind the content */
 }
 
 .search-input {
     padding: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
@@ -34,7 +49,7 @@
     background-color: #45a049;
 }
 
-.home-page-header p {
+.home-page-header h1 {
     text-align: center;
-    font-size: 3em;
+    font-size: calc(50px + 2vmin);
 }

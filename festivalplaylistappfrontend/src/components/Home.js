@@ -24,16 +24,19 @@ function Home() {
             // Check if user entered invalid festival
             if (!response.ok) {
                 if (response.status == 404) {
-                    alert("No festival found. Please try again.")
+                    alert("No festival found. Please try again.");
                 } else {
-                    alert("No festival found. Please try again.")
+                    alert("No festival found. Please try again.");
                 }
                 return;
             }
             const data = await response.json();
-            
-            // Pass the festival data to the search result page
-            navigate('/search-result', {state: {festivalData: data}}); 
+            if(!data.isFound) {
+                alert("No festival found. Please try again.");
+            } else {
+                // Pass the festival data to the search result page
+                navigate('/search-result', {state: {festivalData: data, userId: userId}});
+            } 
         } catch (error) {
             console.error("Error:", error);
         }
@@ -42,7 +45,7 @@ function Home() {
     return (
         <div className="home-page">
             <header className="home-page-header">
-                <p>Search Festival:</p>
+                <h1>Search Festival:</h1>
             </header>
             <input type="text" className="search-input" placeholder="Music Festival Name" onChange={(e) => setFestivalName(e.target.value)} />
             <input type="text" className="search-input" placeholder="Year" onChange={(e) => setYear(e.target.value)} />

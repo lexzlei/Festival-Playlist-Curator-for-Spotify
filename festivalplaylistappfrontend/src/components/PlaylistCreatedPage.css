@@ -1,0 +1,57 @@
+/* PlaylistCreatedPage.css */
+.playlist-created-page {
+    position: relative;
+    background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\confetti.jpg");
+    background-size: cover;
+    background-position: center 40%;
+    backdrop-filter: blur(5px);
+    min-height: 100vh;
+    align-items: center;
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-created-page::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: -1; /* Ensures the overlay is behind the content */
+}
+
+.playlist-created-page h1 {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 10px;
+    font-size: calc(50px + 2vmin);
+}
+
+.playlist-created-page p {
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: calc(10px + 2vmin);
+}
+
+/* Styling for the return home button */
+.return-home-button {
+    padding: 20px 20px;
+    font-size: 2.5em;
+    color: white;
+    background-color: #1db91d; /* Spotify green */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.return-home-button:hover {
+    background-color: #45a049;
+}

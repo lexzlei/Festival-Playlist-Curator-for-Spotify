@@ -3,6 +3,7 @@ package com.lexlei.festivalplaylistapp.Models;
 import java.io.Serializable;
 import java.sql.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,11 +19,13 @@ import lombok.Setter;
 public class SpotifyUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String userName;
-    private String emailId;
+    @Column(name = "id")
+    private Integer userId;
+    @Column(name = "access_token")
     private String accessToken;
+    @Column(name = "refresh_token")
     private String refreshToken;
+    @Column(name = "ref_id")
     private String refId;
 
 }

@@ -2,24 +2,41 @@ package com.lexlei.festivalplaylistapp.Controllers;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.hc.core5.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lexlei.festivalplaylistapp.Configuration.SpotifyConfiguration;
+import com.lexlei.festivalplaylistapp.Models.SpotifyUser;
 import com.lexlei.festivalplaylistapp.Repositories.SpotifyUserRepository;
 import com.lexlei.festivalplaylistapp.Service.SpotifyUserService;
+import com.neovisionaries.i18n.CountryCode;
 
 import jakarta.servlet.http.HttpServletResponse;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
+import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.Artist;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.model_objects.specification.User;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
+import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest;
+import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
+import se.michaelthelin.spotify.requests.data.search.simplified.SearchArtistsRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 
 @RestController
@@ -86,7 +103,53 @@ public class SpotifyController {
         return null;
     }
     // Spotify Create Playlist
-    //@GetMapping("")
-    // Spotify Artist Top Songs
-    // Spotify Add Songs to Playlist
+    @PostMapping("add-playlist/{userId}/{playlistName}")
+    public ResponseEntity<String> createSpotifyPlaylist(@PathVariable String userId,
+                                                        @PathVariable String playlistName, 
+                                                        @RequestBody List<String> artistNames) {
+                                                            
+        SpotifyUser userDetails = spotifyUserRepository.findByRefId(userId);
+        SpotifyApi spotify = spotifyConfiguration.getSpotifyObject();
+        spotify.setAccessToken(userDetails.getAccessToken());
+        spotify.setRefreshToken(userDetails.getRefreshToken());
+        
+        try {
+            // Create a new playlist with user inputted name
+            final Playlist newPlaylist = spotify.createPlaylist(userId, playlistName)
+                                                .public_(true)
+                                                .collaborative(false)
+                                                .build().execute();
+
+            List<String> trackUris = new ArrayList<>();
+            
+            // Get top tracks of each artist
+            for (String artistName : artistNames) {
+                Paging<Artist> searchArtistsRequest = spotify.searchArtists(artistName).limit(1).build().execute();
+                Artist artist = searchArtistsRequest.getItems()[0];
+                GetArtistsTopTracksRequest topTracksRequest = spotify.getArtistsTopTracks(artist.getId(), CountryCode.US).build();
+                Track[] topTracks = topTracksRequest.execute();
+                for (int i = 0; i < Math.min(topTracks.length, 5); i++) {
+                    trackUris.add(topTracks[i].getUri());
+                } 
+            }
+
+            // Add top tracks to the playlist
+            String[] uris = trackUris.toArray(new String[0]);
+            AddItemsToPlaylistRequest addItemsRequest = spotify.addItemsToPlaylist(newPlaylist.getId(), uris).build();
+            addItemsRequest.execute();
+            return ResponseEntity.ok("Playlist Created Successfully");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error Creating Playlist");
+        }
+
+    }
+
+    private SpotifyApi getSpotifyApiWithAccessToken() {
+        // Retrieve stored access token and set it
+        SpotifyApi spotifyApi = spotifyConfiguration.getSpotifyObject();
+        //spotifyApi.setAccessToken(accessToken);
+        throw new UnsupportedOperationException("Unimplemented method 'getSpotifyApiWithAccessToken'");
+    }
 }
