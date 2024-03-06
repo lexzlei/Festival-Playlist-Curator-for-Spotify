@@ -1,4 +1,6 @@
 /*Header.css*/
+
+/* Header container styles */
 .header-container {
     background-color: rgba(197, 197, 197, 0.623); /* Translucent black */
     width: 100%;
@@ -12,6 +14,7 @@
     padding: .1vh 0; /* Some padding */
 }
 
+/* Header container image styles */
 .header-container img {
     width: 15vw; /* Adjust as necessary */
     height: auto;

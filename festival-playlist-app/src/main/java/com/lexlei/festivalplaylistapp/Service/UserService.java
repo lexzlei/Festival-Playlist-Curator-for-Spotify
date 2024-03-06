@@ -1,3 +1,6 @@
+/**
+ * THIS FILE IS CURRENTLY UNUSED UNTIL FURTHER FUNCTIONALITY IMPLEMENTATION.
+ */
 package com.lexlei.festivalplaylistapp.Service;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +28,9 @@ public class UserService {
 
     /**
      * Creates a new user.
-     * @param user the user to create.
-     * @return the created user.
+     * 
+     * @param user The user to create.
+     * @return User - The created user.
      */
     public User addUser(User user) {
         return userRepository.save(user);
@@ -34,7 +38,8 @@ public class UserService {
 
     /**
      * Retrieves all users.
-     * @return a list of all users.
+     * 
+     * @return List<User> - A list of all users.
      */
     public List<User> getAllUsers() {
         Iterable<User> users = userRepository.findAll();
@@ -53,8 +58,9 @@ public class UserService {
 
     /**
      * Updates an existing user.
-     * @param user the user to update.
-     * @return the updated user.
+     * 
+     * @param user The user to update.
+     * @return User - The updated user.
      */
     public User updateUser(Integer id, User user) {
         return userRepository.findById(id)
@@ -73,7 +79,8 @@ public class UserService {
     
     /**
      * Deletes a user by ID.
-     * @param userId the ID of the user to delete.
+     * 
+     * @param userId The ID of the user to delete.
      */
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);

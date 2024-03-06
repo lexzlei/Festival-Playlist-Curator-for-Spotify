@@ -2,6 +2,8 @@
  * Provides classes for managing playlist information in the Festival Playlist Curator App.
  * This package includes classes to handle user interactions, festival details, artists, 
  * and songs.
+ * 
+ * THIS CLASS IS CURRENTLY UNUSED UNTIL FURTHER FUNCTIONALITY IMPLEMENTATION.
  */
 package com.lexlei.festivalplaylistapp.Models;
 import jakarta.persistence.Entity;

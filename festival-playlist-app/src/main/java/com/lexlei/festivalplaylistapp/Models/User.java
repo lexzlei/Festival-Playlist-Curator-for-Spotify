@@ -17,6 +17,8 @@ import jakarta.persistence.Table;
  * This class stores information about a user, including their first and last name,
  * email, and password.
  * It also links the user and playlists they have created.
+ * 
+ * THIS CLASS IS CURRENTLY UNUSED UNTIL FURTHER FUNCTIONALITY IMPLEMENTATION.
  */
 @Entity
 @Table(name = "users", schema = "festival_app")

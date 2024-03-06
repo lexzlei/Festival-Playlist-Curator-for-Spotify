@@ -25,6 +25,8 @@ public class PlaylistSong {
      * This field is mapped to the composite key class 'PlaylistSongId', which contains
      * references to the associated playlist and song identifiers. The @EmbeddedId annotation
      * is used to indicate that this field is serving as a composite primary key for the entity.
+     * 
+     * THIS CLASS IS CURRENTLY UNUSED UNTIL FURTHER FUNCTIONALITY IMPLEMENTATION.
      */
     @EmbeddedId
     private PlaylistSongId PlaylistSongID; // The unique key for this playlistsong entity.

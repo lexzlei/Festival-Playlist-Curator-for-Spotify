@@ -1,7 +1,21 @@
+/**
+ * Home.js
+ * 
+ * This module provides the functionaly for the home page of the web app.
+ * It renders the text input fields allowing the user to search for a festival 
+ * by name and year. The user is navigated to the search result page upon
+ * submitting a valid festival and pressing the search button.
+ */
 import React, {useState} from "react";
 import "./Home.css"
 import { useLocation, useNavigate } from 'react-router-dom';
 
+/**
+ * Home Component
+ * 
+ * Handles the user input for their festival search.
+ * Navigates user to the search result page.
+ */
 function Home() {
     const [festivalName, setFestivalName] = useState("");
     const [year, setYear] = useState("");
@@ -9,6 +23,12 @@ function Home() {
     const queryParams = new URLSearchParams(location.search);
     const userId = queryParams.get('id');
     const navigate = useNavigate();
+    /**
+     * Initiates the festival lineup search process.
+     * Fetches the festival data from the backend, scraping the website "Festival Wizard".
+     * Navigates to the search result page if the festival is found. Displays alerts if
+     * the user enters an invalid festival.
+     */
     const handleSearch = async () => {
         // Check if user has not filled out the fields
         if (!festivalName.trim() || !year.trim()) {
@@ -30,6 +50,7 @@ function Home() {
                 }
                 return;
             }
+            // Converting response to JSON format
             const data = await response.json();
             if(!data.isFound) {
                 alert("No festival found. Please try again.");

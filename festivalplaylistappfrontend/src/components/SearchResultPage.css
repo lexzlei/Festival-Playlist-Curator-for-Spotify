@@ -1,4 +1,6 @@
 /* SearchResultsPage.css */
+
+/* Search Result Page styles */
 .search-result {
     position: relative;
     background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\FredAgain.jpg");
@@ -16,16 +18,19 @@
     padding-top: 150px;
 }
 
+/* Search result page header styles */
 .search-result h1 {
     text-align: center;
     font-size: clamp(1.5rem, 2.5vw, 3rem);
 }
 
+/* Search result page subheader styles */
 .search-result h2 {
     text-align: center;
     font-size: clamp(1rem, 1.5vw, 2rem);
 }
 
+/* Semi transparent dark overlay for better text readability */
 .search-result::before {
     content: ''; /* Required for pseudo-elements */
     position: absolute;
@@ -37,6 +42,7 @@
     z-index: -1; /* Ensures the overlay is behind the content */
 }
 
+/* Main artist button container styles */
 .artist-buttons-container {
     display: flex;
     flex-wrap: wrap;
@@ -45,6 +51,7 @@
     width: fit-content;
 }
 
+/* Artist button styles */
 .artist-button {
     border: none;
     background-color: rgba(58, 58, 58, 0.521);
@@ -56,14 +63,17 @@
     transition: background-color 0.3s;
 }
 
+/* Artist button hover effect */
 .artist-button:hover, .artist-button:active {
     background-color: rgba(0,0,0,.9);
 }
 
+/* Artist button selected effect */
 .artist-button.selected {
     background-color: rgba(0,0,0,.9);
 }
 
+/* Playlist name user input text box styles */
 .playlist-name-input {
     padding: 15px;
     margin-top: 20px;

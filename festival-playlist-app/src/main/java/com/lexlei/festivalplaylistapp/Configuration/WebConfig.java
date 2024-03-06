@@ -4,6 +4,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * WebConfig class
+ * 
+ * This class provides the web app configuration to allow Cross-Origin 
+ * Resource Sharing. Allows CRUD requests with the frontend port while
+ * the backend runs on port 8080
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 

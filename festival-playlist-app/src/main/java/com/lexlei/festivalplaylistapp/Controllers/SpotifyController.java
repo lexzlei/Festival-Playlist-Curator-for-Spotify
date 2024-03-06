@@ -26,7 +26,6 @@ import com.neovisionaries.i18n.CountryCode;
 import jakarta.servlet.http.HttpServletResponse;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
 import se.michaelthelin.spotify.model_objects.specification.Artist;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
@@ -36,9 +35,15 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
-import se.michaelthelin.spotify.requests.data.search.simplified.SearchArtistsRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 
+/**
+ * SpotifyController Class
+ * 
+ * This class handles all the HTTP requests relating to the Spotify user.
+ * Includes enpoints for retrieving and managing Spotify user data, redirect 
+ * pages, and playlist creation.
+ */
 @RestController
 @RequestMapping("/api/spotify")
 public class SpotifyController {
@@ -53,46 +58,78 @@ public class SpotifyController {
 	
 	@Autowired
 	private SpotifyUserRepository spotifyUserRepository;
-
+    /**
+     * Initiates the Spotify OAuth process.
+     * This method creates an authorization request to Spotify's OAuth endpoint.
+     * 
+     * @return uri - String representation of the redirect URI for Spotify's OAuth login.
+     */
     @GetMapping("login")
     public String spotifyLogin() {
-        SpotifyApi spotify = spotifyConfiguration.getSpotifyObject();
+        SpotifyApi spotify = spotifyConfiguration.getSpotifyObject(); // Instantiate SpotifyApi object
         
+        // Build request for authorization endpoint URI
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotify.authorizationCodeUri()
-                .scope("user-read-private user-read-email user-read-private playlist-modify-private playlist-modify-public")
-                .show_dialog(true)
-                .build();
+                .scope("user-read-private user-read-email user-read-private playlist-modify-private playlist-modify-public") // Requested permissions
+                .show_dialog(true) // Shows authorization dialogue when the user logs in
+                .build(); // Completes construction of the request
+
+        // Executes the build request and retireves the URI which redirects user to authorization page
         final URI uri = authorizationCodeUriRequest.execute();
+
+        // Returns authorization URI as a String
         return uri.toString();
     }
 
+    /**
+     * Handles the retrieval of the Spotify user's access and refresh token and reference ID
+     * This endpoint is triggered by the OAuth callback.
+     * 
+     * @param authorizationCode An authorization code that can be exchanged for an access token. 
+     *                          It is passed in by Spotify as a query parameter in the redirect URI 
+     *                          after the user accepts the authorization request.
+     *                          I.e. http://localhost:8080//api/spotify/get-user-code?code=XXX..XXX&state=XXXXXXXX
+     * @param response The HttpServletResponse object to manage the HTTP response.
+     * @throws IOException If an input or output exception occurs.
+     */
     @GetMapping(value = "get-user-code")
-    public void getSpotifyUserCode(@RequestParam("code") String userCode, HttpServletResponse response) throws IOException {
+    public void getSpotifyUserCode(@RequestParam("code") String authorizationCode, HttpServletResponse response) throws IOException {
+        // Instantiate SpotifyApi object
         SpotifyApi spotify = spotifyConfiguration.getSpotifyObject();
 
-        // Instantiate Authorization Code Request 
-        AuthorizationCodeRequest authorizationCodeRequest = spotify.authorizationCode(userCode).build();
+        // Build Authorization Code Request using the authorization code passed into the redirect URI
+        AuthorizationCodeRequest authorizationCodeRequest = spotify.authorizationCode(authorizationCode).build();
         User user = null;
         
         try {
-            final AuthorizationCodeCredentials authorizationCode = authorizationCodeRequest.execute();
+            // Executes the build request and retireves the user's authorization credential data
+            final AuthorizationCodeCredentials authorizationCredentials = authorizationCodeRequest.execute();
 
-            // Gets access token and refresh token from AuthorizationCodeCredentials entity
-            spotify.setAccessToken(authorizationCode.getAccessToken());
-            spotify.setRefreshToken(authorizationCode.getRefreshToken());
+            // Sets the SpotifyApi instance's access and refresh token from AuthorizationCodeCredentials entity
+            spotify.setAccessToken(authorizationCredentials.getAccessToken());
+            spotify.setRefreshToken(authorizationCredentials.getRefreshToken());
 
+            // Gets the current Spotify user that has granted authorization
             final GetCurrentUsersProfileRequest getCurrentUsersProfile = spotify.getCurrentUsersProfile().build();
-            user = getCurrentUsersProfile.execute(); // gets user information from Spotify User class
+            user = getCurrentUsersProfile.execute(); 
 
-            spotifyUserService.insertOrUpdateSpotifyUser(user, authorizationCode.getAccessToken(), authorizationCode.getRefreshToken());
+            // Sets the access and refresh token and reference id of the Spotify user instance in database
+            spotifyUserService.insertOrUpdateSpotifyUser(user, authorizationCredentials.getAccessToken(), authorizationCredentials.getRefreshToken());
         }
         catch (Exception e) {
             System.out.println("Exception occured while getting user code: " + e);
         }
+
+        // Redirects user with reference ID as a query parameter
         response.sendRedirect(customIp + "/home?id="+user.getId());
-        //response.sendRedirect(customIp + "/api/festival/search?id="+user.getId());
     }
 
+    /**
+     * Endpoint verifies that the user reference is was successfully retrieved.
+     * 
+     * @param userId
+     * @return userId - The Spotify reference ID for the user.
+     */
     @GetMapping(value = "home")
     public String home(@RequestParam String userId) {
         try {
@@ -102,30 +139,44 @@ public class SpotifyController {
         }
         return null;
     }
-    // Spotify Create Playlist
+
+    /**
+     * Handles the creation of a Spotify playlist based on artists selected by the user.
+     * 
+     * @param userId The Spotify refrence ID for the user.
+     * @param playlistName The user's playlist name.
+     * @param artistNames The names of the artists selected by the user.
+     * @return ResponseEntity<String> - The HTTP request status code indicating if the 
+     *                                  playlist was successfully created.
+     */
     @PostMapping("add-playlist/{userId}/{playlistName}")
     public ResponseEntity<String> createSpotifyPlaylist(@PathVariable String userId,
                                                         @PathVariable String playlistName, 
                                                         @RequestBody List<String> artistNames) {
-                                                            
+        
+        // Finds Spotify user with reference ID
         SpotifyUser userDetails = spotifyUserRepository.findByRefId(userId);
         SpotifyApi spotify = spotifyConfiguration.getSpotifyObject();
         spotify.setAccessToken(userDetails.getAccessToken());
         spotify.setRefreshToken(userDetails.getRefreshToken());
         
         try {
-            // Create a new playlist with user inputted name
+            // Create a new playlist with user inputted playlist name
             final Playlist newPlaylist = spotify.createPlaylist(userId, playlistName)
                                                 .public_(true)
                                                 .collaborative(false)
                                                 .build().execute();
 
+            // Instantiate the list of Spotify track URIs
             List<String> trackUris = new ArrayList<>();
             
             // Get top tracks of each artist
             for (String artistName : artistNames) {
+                // Retrieves the first search result for the artist name
                 Paging<Artist> searchArtistsRequest = spotify.searchArtists(artistName).limit(1).build().execute();
                 Artist artist = searchArtistsRequest.getItems()[0];
+
+                // Retrieves the artist's top 5 track URIs
                 GetArtistsTopTracksRequest topTracksRequest = spotify.getArtistsTopTracks(artist.getId(), CountryCode.US).build();
                 Track[] topTracks = topTracksRequest.execute();
                 for (int i = 0; i < Math.min(topTracks.length, 5); i++) {
@@ -133,8 +184,10 @@ public class SpotifyController {
                 } 
             }
 
-            // Add top tracks to the playlist
+            // Converts the list of track URIs to an array
             String[] uris = trackUris.toArray(new String[0]);
+
+            // Requests Spotify to add all tacks to the playlist created by the user
             AddItemsToPlaylistRequest addItemsRequest = spotify.addItemsToPlaylist(newPlaylist.getId(), uris).build();
             addItemsRequest.execute();
             return ResponseEntity.ok("Playlist Created Successfully");
@@ -144,12 +197,5 @@ public class SpotifyController {
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error Creating Playlist");
         }
 
-    }
-
-    private SpotifyApi getSpotifyApiWithAccessToken() {
-        // Retrieve stored access token and set it
-        SpotifyApi spotifyApi = spotifyConfiguration.getSpotifyObject();
-        //spotifyApi.setAccessToken(accessToken);
-        throw new UnsupportedOperationException("Unimplemented method 'getSpotifyApiWithAccessToken'");
     }
 }

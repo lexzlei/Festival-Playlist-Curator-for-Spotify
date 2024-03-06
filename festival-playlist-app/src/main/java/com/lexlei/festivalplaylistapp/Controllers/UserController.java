@@ -16,6 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lexlei.festivalplaylistapp.Models.User;
 import com.lexlei.festivalplaylistapp.Service.UserService;
 
+/**
+ * UserController Class
+ * 
+ * This class handles HTTP requests relating to the user.
+ * 
+ * Currently this file is unused and may be implement for 
+ * improvments later on.
+ */
 @RestController
 @RequestMapping(path="/api/user")
 public class UserController {

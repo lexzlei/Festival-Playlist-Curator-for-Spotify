@@ -1,17 +1,35 @@
+/**
+ * SpotifyLogin.js
+ * 
+ * This module provides the functionality for the Spotify User Authentication.
+ * It renders a login button and handles the Spotify OAuth flow with Spotify's API
+ */
+
 import React from "react";
 import "./SpotifyLogin.css"
 import logo from '../FestbeatsLogo.png';
 
+/**
+ * SpotifyLogin Component
+ * 
+ * Renders the login page for the Music Festival Playlist Creator app.
+ * Includes a header with a logo, app name, and instruction for the user,
+ * and has a button to initiate the Spotify OAuth process.
+ */
 function SpotifyLogin() {
+    /**
+     * Initiates the Spotify login process.
+     * Makes a GET request to the backend which redirects to the Spotify login page.
+     */
     const getSpotifyUserLogin = () => {
         fetch("http://localhost:8080/api/spotify/login")
         .then((response) => response.text())
         .then(response => {
             console.log("Response received", response);
-            window.location.replace(response);
+            window.location.replace(response); // Redirects to Spotify's login page
         })
         .catch(error => {
-            console.error('Error fetching data: ', error);
+            console.error('Error fetching data: ', error); // Logs errors
         })
     };
 
@@ -27,4 +45,4 @@ function SpotifyLogin() {
     )
 }
 
-export default SpotifyLogin
+export default SpotifyLogin; //Exports the component for use in other parts of the app

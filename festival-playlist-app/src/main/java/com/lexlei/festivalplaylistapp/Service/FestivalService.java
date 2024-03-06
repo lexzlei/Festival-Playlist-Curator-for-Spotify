@@ -1,9 +1,7 @@
 package com.lexlei.festivalplaylistapp.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lexlei.festivalplaylistapp.Models.Festival;
-import com.lexlei.festivalplaylistapp.Models.SpotifyUser;
 import com.lexlei.festivalplaylistapp.Repositories.ArtistRepository;
 import com.lexlei.festivalplaylistapp.Repositories.FestivalRepository;
 
@@ -38,12 +35,16 @@ public class FestivalService {
     }
 
     /**
-     * Adds a new festival.
-     * @param festival the festival to create.
-     * @return the created festival.
+     * Handles the festival search functionality of the web app.
+     * Scraped the existing website "Music Festival Wizard" for festival data
+     * such as name, location, and artist lineup. 
+     * 
+     * @param festivalName The name of the desired festival to search.
+     * @param year The year of the desired festival.
+     * @return Festival - The configured Festival object.
      */
     public Festival searchFestival(String festivalName, Integer year) {
-        Festival festival = new Festival();
+        Festival festival = new Festival(); // Instantiate new Festival object
         festival.setYear(year);
 
         // The URL based on user input into the musicfestivalwizard website
@@ -58,6 +59,7 @@ public class FestivalService {
                                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)") 
                                //.referrer("http://www.google.com")
                                .get();
+
             // Select the HTML link element using the CSS query which will give the correct URL to display the lineup
             Element linkElement = doc.select("#artist-lineup-container > div > header > div > h2 > a").first();
 
@@ -112,7 +114,8 @@ public class FestivalService {
 
     /**
      * Retrieves all Festivals.
-     * @return a list of all Festivals.
+     * 
+     * @return List<Festival> - a list of all Festivals.
      */
     public List<Festival> getAllFestivals() {
         Iterable<Festival> festivals = festivalRepository.findAll();
@@ -122,8 +125,9 @@ public class FestivalService {
 
     /**
      * Retrieves a Festival by ID.
+     * 
      * @param id the ID of the Festival to retrieve.
-     * @return an Optional containing the Festival if found.
+     * @return Optional<Festival> - an Optional containing the Festival if found.
      */
     public Optional<Festival> getFestivalById(Integer id) {
         return festivalRepository.findById(id);
@@ -131,6 +135,7 @@ public class FestivalService {
     
     /**
      * Deletes a Festival by ID.
+     * 
      * @param id the ID of the Festival to delete.
      */
     public void deleteFestival(Integer id) {

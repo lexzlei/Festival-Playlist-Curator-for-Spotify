@@ -1,7 +1,9 @@
 /* SpotifyLogin.css */
+
+/* Main login page styles*/
 .login {
     position: relative;
-    background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\VideoCapture_20220522-143506 (1).jpg");
+    background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\VideoCapture_20220522-143506 (1).jpg"); /* background image*/
     background-size: cover;
     background-position: center 100%;
     min-height: 100vh;
@@ -14,6 +16,7 @@
     z-index: 11;
   }
 
+  /* Semi transparent dark overlay for better text readability */
   .login::before {
     content: ''; /* Required for pseudo-elements */
     position: absolute;
@@ -25,13 +28,15 @@
     z-index: -1; /* Ensures the overlay is behind the content */
 }
 
+/* Login page header styles */
 .login-header h1 {
     text-align: center;
     color: white;
     margin-bottom: 20px;
     font-size: clamp(1.5rem, 4vw, 5rem);
 }
-  
+
+/* Login page paragraph styles */
 .login-header p {
     text-align: center;
     color: white;
@@ -63,6 +68,7 @@
     box-shadow: 0 0 0 2px rgba(30, 215, 96, 0.5);
 }
 
+/* Login header styles */
 .login-header {
     display: flex;
     flex-direction: column; /* or 'row' based on layout */
@@ -70,6 +76,7 @@
     align-items: center;
 }
 
+/* Login header image styles */
 .login-header img {
     width: 30vw; /* Adjust as necessary */
     height: auto;

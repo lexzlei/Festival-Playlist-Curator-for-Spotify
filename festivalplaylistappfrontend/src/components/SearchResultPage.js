@@ -1,15 +1,33 @@
-// SearchResultsPage.js
+/**
+ * SearchResultPage.js
+ * 
+ * This module provides the functionality of the search result page.
+ */
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './SearchResultPage.css';
 
+/**
+ * SearchResultPage Component
+ * 
+ * Renders the search results page after the user searches for a festival.
+ * The page displays the festival's name, location, and year, and lists all 
+ * performing artists. Users can select artists to include in a Spotify Playlist
+ * and then generate a playlist.
+ */
 function SearchResultPage() {
     const location = useLocation();
-    const { festivalData, userId } = location.state;
+    const { festivalData, userId } = location.state; // Extracting the festival data and user id from the 'state' object of the current route
     const [selectedArtists, setSelectedArtists] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
     const navigate = useNavigate();
 
+    /**
+     * Toggles an artist's selection status.
+     * Adds or removes the artist from the selectedArtists array.
+     * 
+     * @param {string} artist - The name of the artist to toggle.
+     */
     const handleArtistSelect = (artist) => {
         setSelectedArtists(prevArtists => {
             // Check if the artist is already selected
@@ -23,6 +41,12 @@ function SearchResultPage() {
         });
     };
 
+    /**
+     * Handles the playlist creation process.
+     * Sends a POST request to the backend with the selected artists and desired
+     * playlist name. Redirects the user to a confirmation page upon successfull
+     * playlist creation.
+     */
     const handleCreatePlaylist = async () => {
         // Call to create playlist with selected artists
         console.log("UserID:", userId);
