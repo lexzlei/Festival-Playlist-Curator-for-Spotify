@@ -17,7 +17,7 @@ This project is a full-stack web application that allows users to explore music 
 - Frontend: React, HTML, CSS
 - Backend: Node.js, Spring Boot
 - Database: SQL
-- Additional Libraries: React Router, Axios, BCrypt, JWT
+- Additional Libraries: React Router
 
 ## Getting Started
 
@@ -67,7 +67,7 @@ This project is a full-stack web application that allows users to explore music 
 
 After starting the application, you can:
 
-- Register a new user account or log in with existing credentials.
+- Register a new user account or log in with existing spotify credentials.
 - Search for music festivals.
 - View artist lineups for selected festivals.
 - Create and manage playlists based on selected artists.
