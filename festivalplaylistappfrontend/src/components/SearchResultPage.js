@@ -50,7 +50,7 @@ function SearchResultPage() {
     const handleCreatePlaylist = async () => {
         // Call to create playlist with selected artists
         console.log("UserID:", userId);
-        const response = await fetch(`http://localhost:8080/api/spotify/add-playlist/${userId}/${playlistName}`, {
+        const response = await fetch(`https://www.festbeatsapp.com/api/spotify/add-playlist/${userId}/${playlistName}`, {
             method: 'POST',
             body: JSON.stringify(selectedArtists),
             headers: {

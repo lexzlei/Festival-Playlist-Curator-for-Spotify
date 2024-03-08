@@ -22,7 +22,7 @@ function SpotifyLogin() {
      * Makes a GET request to the backend which redirects to the Spotify login page.
      */
     const getSpotifyUserLogin = () => {
-        fetch("http://localhost:8080/api/spotify/login")
+        fetch("https://www.festbeatsapp.com/api/spotify/login")
         .then((response) => response.text())
         .then(response => {
             console.log("Response received", response);

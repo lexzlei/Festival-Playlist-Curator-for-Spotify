@@ -99,7 +99,7 @@ public class SpotifyController {
 
         // Check if there is an error in the parameter (User cancelled OAuth process)
         if (error != null) {
-            response.sendRedirect("http://localhost:8080");
+            response.sendRedirect(customIp); // Redirect to landing page
         } 
 
         // Proceed with OAuth

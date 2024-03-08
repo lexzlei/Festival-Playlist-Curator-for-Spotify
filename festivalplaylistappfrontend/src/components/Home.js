@@ -37,7 +37,7 @@ function Home() {
         }
         try {
             // Redirect to search results page with query parameters
-            const url = `http://localhost:8080/api/festival/search/${festivalName}/${year}`; 
+            const url = `https://www.festbeatsapp.com/api/festival/search/${festivalName}/${year}`; 
             const response = await fetch(url, {
                 method: 'POST',
             });
