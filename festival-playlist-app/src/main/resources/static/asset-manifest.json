@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6b955286.css",
+    "main.js": "/static/js/main.034628bf.js",
+    "static/js/787.3f350904.chunk.js": "/static/js/787.3f350904.chunk.js",
+    "static/media/FredAgain.jpg": "/static/media/FredAgain.3af409de836fb02f303c.jpg",
+    "static/media/VideoCapture_20220522-143506 (1).jpg": "/static/media/VideoCapture_20220522-143506 (1).be57b04bb4ce099c1262.jpg",
+    "static/media/confetti.jpg": "/static/media/confetti.a32e3d2c2d04a96228c5.jpg",
+    "static/media/miami-gallery-2019-5-1600x1066.jpg": "/static/media/miami-gallery-2019-5-1600x1066.d7e7420a70520f02775c.jpg",
+    "static/media/FestbeatsLogo.png": "/static/media/FestbeatsLogo.e81f0c72dd77bdf27ce2.png",
+    "index.html": "/index.html",
+    "main.6b955286.css.map": "/static/css/main.6b955286.css.map",
+    "main.034628bf.js.map": "/static/js/main.034628bf.js.map",
+    "787.3f350904.chunk.js.map": "/static/js/787.3f350904.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6b955286.css",
+    "static/js/main.034628bf.js"
+  ]
+}

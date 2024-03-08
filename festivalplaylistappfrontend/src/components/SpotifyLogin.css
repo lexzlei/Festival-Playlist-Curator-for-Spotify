@@ -10,8 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-bottom: 10px;
+    justify-content: flex;
     backdrop-filter: blur(5px);
     z-index: 11;
   }
@@ -32,7 +31,7 @@
 .login-header h1 {
     text-align: center;
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     font-size: clamp(1.5rem, 4vw, 5rem);
 }
 
@@ -40,7 +39,7 @@
 .login-header p {
     text-align: center;
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: clamp(1.5rem, 2.5vw, 3rem);
 }
   
@@ -74,6 +73,7 @@
     flex-direction: column; /* or 'row' based on layout */
     justify-content: center;
     align-items: center;
+    margin-top: 30px;
 }
 
 /* Login header image styles */

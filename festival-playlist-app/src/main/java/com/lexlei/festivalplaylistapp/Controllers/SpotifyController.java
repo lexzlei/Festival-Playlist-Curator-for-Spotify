@@ -93,35 +93,46 @@ public class SpotifyController {
      * @throws IOException If an input or output exception occurs.
      */
     @GetMapping(value = "get-user-code")
-    public void getSpotifyUserCode(@RequestParam("code") String authorizationCode, HttpServletResponse response) throws IOException {
-        // Instantiate SpotifyApi object
-        SpotifyApi spotify = spotifyConfiguration.getSpotifyObject();
+    public void getSpotifyUserCode(@RequestParam(value = "code", required = false) String authorizationCode, 
+                                   @RequestParam(value = "error", required = false) String error, 
+                                   HttpServletResponse response) throws IOException {
 
-        // Build Authorization Code Request using the authorization code passed into the redirect URI
-        AuthorizationCodeRequest authorizationCodeRequest = spotify.authorizationCode(authorizationCode).build();
-        User user = null;
-        
-        try {
-            // Executes the build request and retireves the user's authorization credential data
-            final AuthorizationCodeCredentials authorizationCredentials = authorizationCodeRequest.execute();
+        // Check if there is an error in the parameter (User cancelled OAuth process)
+        if (error != null) {
+            response.sendRedirect("http://localhost:8080");
+        } 
 
-            // Sets the SpotifyApi instance's access and refresh token from AuthorizationCodeCredentials entity
-            spotify.setAccessToken(authorizationCredentials.getAccessToken());
-            spotify.setRefreshToken(authorizationCredentials.getRefreshToken());
+        // Proceed with OAuth
+        if (authorizationCode != null) {
+            // Instantiate SpotifyApi object
+            SpotifyApi spotify = spotifyConfiguration.getSpotifyObject();
 
-            // Gets the current Spotify user that has granted authorization
-            final GetCurrentUsersProfileRequest getCurrentUsersProfile = spotify.getCurrentUsersProfile().build();
-            user = getCurrentUsersProfile.execute(); 
+            // Build Authorization Code Request using the authorization code passed into the redirect URI
+            AuthorizationCodeRequest authorizationCodeRequest = spotify.authorizationCode(authorizationCode).build();
+            User user = null;
+            
+            try {
+                // Executes the build request and retireves the user's authorization credential data
+                final AuthorizationCodeCredentials authorizationCredentials = authorizationCodeRequest.execute();
 
-            // Sets the access and refresh token and reference id of the Spotify user instance in database
-            spotifyUserService.insertOrUpdateSpotifyUser(user, authorizationCredentials.getAccessToken(), authorizationCredentials.getRefreshToken());
+                // Sets the SpotifyApi instance's access and refresh token from AuthorizationCodeCredentials entity
+                spotify.setAccessToken(authorizationCredentials.getAccessToken());
+                spotify.setRefreshToken(authorizationCredentials.getRefreshToken());
+
+                // Gets the current Spotify user that has granted authorization
+                final GetCurrentUsersProfileRequest getCurrentUsersProfile = spotify.getCurrentUsersProfile().build();
+                user = getCurrentUsersProfile.execute(); 
+
+                // Sets the access and refresh token and reference id of the Spotify user instance in database
+                spotifyUserService.insertOrUpdateSpotifyUser(user, authorizationCredentials.getAccessToken(), authorizationCredentials.getRefreshToken());
+            }
+            catch (Exception e) {
+                System.out.println("Exception occured while getting user code: " + e);
+            }
+
+            // Redirects user with reference ID as a query parameter
+            response.sendRedirect(customIp + "/home?id="+user.getId());
         }
-        catch (Exception e) {
-            System.out.println("Exception occured while getting user code: " + e);
-        }
-
-        // Redirects user with reference ID as a query parameter
-        response.sendRedirect(customIp + "/home?id="+user.getId());
     }
 
     /**
