@@ -29,9 +29,11 @@ public class SpotifyUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer userId; // Auto generated unique user ID
-    @Column(name = "access_token")
+    @Column(name = "user_name")
+    private String userName;
+    @Column(name = "access_token", length = 2048)
     private String accessToken; // Unique access token for Spotify Credentials
-    @Column(name = "refresh_token")
+    @Column(name = "refresh_token", length = 2048)
     private String refreshToken; // Unique refresh token for Spotify Credentials
     @Column(name = "ref_id")
     private String refId; // Unique Spotify user reference ID

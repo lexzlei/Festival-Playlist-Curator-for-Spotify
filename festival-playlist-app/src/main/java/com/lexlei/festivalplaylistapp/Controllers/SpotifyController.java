@@ -2,8 +2,9 @@ package com.lexlei.festivalplaylistapp.Controllers;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class SpotifyController {
         
         // Build request for authorization endpoint URI
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotify.authorizationCodeUri()
-                .scope("user-read-private user-read-email user-read-private playlist-modify-private playlist-modify-public") // Requested permissions
+                .scope("user-read-private user-read-email playlist-modify-private playlist-modify-public") // Requested permissions
                 .show_dialog(true) // Shows authorization dialogue when the user logs in
                 .build(); // Completes construction of the request
 
@@ -125,13 +126,12 @@ public class SpotifyController {
 
                 // Sets the access and refresh token and reference id of the Spotify user instance in database
                 spotifyUserService.insertOrUpdateSpotifyUser(user, authorizationCredentials.getAccessToken(), authorizationCredentials.getRefreshToken());
+                // Redirects user with reference ID as a query parameter
+                response.sendRedirect(customIp + "/home?id="+user.getId());
             }
             catch (Exception e) {
                 System.out.println("Exception occured while getting user code: " + e);
             }
-
-            // Redirects user with reference ID as a query parameter
-            response.sendRedirect(customIp + "/home?id="+user.getId());
         }
     }
 
@@ -170,33 +170,42 @@ public class SpotifyController {
         SpotifyApi spotify = spotifyConfiguration.getSpotifyObject();
         spotify.setAccessToken(userDetails.getAccessToken());
         spotify.setRefreshToken(userDetails.getRefreshToken());
-        
+        // Scales the number of tracks per artist to add to the playlist
+        Double trackLimit = Math.floor(85.0 / (artistNames.size()));
+
+        // Validate playlist name
+        if (playlistName == null || playlistName.matches("\\d+")) {
+            return ResponseEntity.badRequest().body("Invalid playlist name");
+        }
+
         try {
             // Create a new playlist with user inputted playlist name
-            final Playlist newPlaylist = spotify.createPlaylist(userId, playlistName)
+            final Playlist newPlaylist = spotify.createPlaylist(userId, playlistName.toString())
                                                 .public_(true)
                                                 .collaborative(false)
                                                 .build().execute();
 
             // Instantiate the list of Spotify track URIs
-            List<String> trackUris = new ArrayList<>();
-            
+            Set<String> trackUriSet = new LinkedHashSet<>();
             // Get top tracks of each artist
             for (String artistName : artistNames) {
                 // Retrieves the first search result for the artist name
-                Paging<Artist> searchArtistsRequest = spotify.searchArtists(artistName).limit(1).build().execute();
-                Artist artist = searchArtistsRequest.getItems()[0];
-
+                Paging<Artist> searchArtistsRequest = spotify.searchArtists(artistName).limit(5).build().execute();
+                Artist artist = null;
+                if (searchArtistsRequest.getTotal() == 0) { // Skips this iteration if artist could not be found on Spotify
+                    continue;
+                } else {
+                    artist = searchArtistsRequest.getItems()[0];
+                }
                 // Retrieves the artist's top 5 track URIs
                 GetArtistsTopTracksRequest topTracksRequest = spotify.getArtistsTopTracks(artist.getId(), CountryCode.US).build();
                 Track[] topTracks = topTracksRequest.execute();
-                for (int i = 0; i < Math.min(topTracks.length, 5); i++) {
-                    trackUris.add(topTracks[i].getUri());
+                for (int i = 0; i < Math.min(topTracks.length, trackLimit); i++) {
+                    trackUriSet.add(topTracks[i].getUri());
                 } 
             }
-
             // Converts the list of track URIs to an array
-            String[] uris = trackUris.toArray(new String[0]);
+            String[] uris = trackUriSet.toArray(new String[0]);
 
             // Requests Spotify to add all tacks to the playlist created by the user
             AddItemsToPlaylistRequest addItemsRequest = spotify.addItemsToPlaylist(newPlaylist.getId(), uris).build();
@@ -205,6 +214,7 @@ public class SpotifyController {
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error Creating Playlist");
         }
 

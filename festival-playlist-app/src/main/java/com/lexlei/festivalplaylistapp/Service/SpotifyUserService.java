@@ -33,7 +33,7 @@ public class SpotifyUserService {
         if(Objects.isNull(spotifyUser)) {
             spotifyUser = new SpotifyUser();
         }
-        //spotifyUser.setUserName(user.getDisplayName());
+        spotifyUser.setUserName(user.getDisplayName());
         //spotifyUser.setEmailId(user.getEmail());
         spotifyUser.setAccessToken(accessToken);
         spotifyUser.setRefreshToken(refreshToken);

@@ -23,6 +23,7 @@ function Home() {
     const queryParams = new URLSearchParams(location.search);
     const userId = queryParams.get('id');
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     /**
      * Initiates the festival lineup search process.
      * Fetches the festival data from the backend, scraping the website "Festival Wizard".
@@ -36,8 +37,9 @@ function Home() {
             return;
         }
         try {
+            setIsLoading(true);
             // Redirect to search results page with query parameters
-            const url = `https://www.festbeatsapp.com/api/festival/search/${festivalName}/${year}`; 
+            const url = `https://www.festbeatsapp.com/api/festival/search/${festivalName}/${year}`; //`http://localhost:8080/api/festival/search/${festivalName}/${year}`;  
             const response = await fetch(url, {
                 method: 'POST',
             });
@@ -61,6 +63,7 @@ function Home() {
         } catch (error) {
             console.error("Error:", error);
         }
+        setIsLoading(false);
     };
 
     return (
@@ -70,7 +73,7 @@ function Home() {
             </header>
             <input type="text" className="search-input" placeholder="Music Festival Name" onChange={(e) => setFestivalName(e.target.value)} />
             <input type="text" className="search-input" placeholder="Year" onChange={(e) => setYear(e.target.value)} />
-            <button className="search-button" onClick={handleSearch}>Search</button>
+            <button className="search-button" onClick={handleSearch} disabled={isLoading}>Search</button>
         </div>
     );
 }

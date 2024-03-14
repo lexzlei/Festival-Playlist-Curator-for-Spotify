@@ -22,11 +22,17 @@ function SpotifyLogin() {
      * Makes a GET request to the backend which redirects to the Spotify login page.
      */
     const getSpotifyUserLogin = () => {
+        //fetch("http://localhost:8080/api/spotify/login")
         fetch("https://www.festbeatsapp.com/api/spotify/login")
-        .then((response) => response.text())
-        .then(response => {
-            console.log("Response received", response);
-            window.location.replace(response); // Redirects to Spotify's login page
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok' + response.statusText);
+            }
+            return response.text();
+        })
+        .then(responseText => {
+            console.log("Response received", responseText);
+            window.location.replace(responseText); // Redirects to Spotify's login page
         })
         .catch(error => {
             console.error('Error fetching data: ', error); // Logs errors
@@ -40,7 +46,7 @@ function SpotifyLogin() {
                 <h1>Music Festival Playlist Creator</h1>
                 <p>Please login to Spotify below to continue:</p>
             </header>
-            <button onClick={getSpotifyUserLogin}>LOGIN WITH SPOTIFY</button>
+            <button onClick={getSpotifyUserLogin}>Login With Spotify</button>
         </div>
     )
 }

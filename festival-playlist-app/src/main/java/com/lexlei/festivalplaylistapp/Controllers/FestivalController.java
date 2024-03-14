@@ -45,7 +45,7 @@ public class FestivalController {
      * 
      * @return List<Festival> - A list of all festivals.
      */
-    @GetMapping("/festival")
+    @GetMapping("")
     public List<Festival> getAllFestivals() {
         return festivalService.getAllFestivals();
     }

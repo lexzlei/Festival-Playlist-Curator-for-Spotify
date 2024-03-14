@@ -54,10 +54,10 @@
 /* Artist button styles */
 .artist-button {
     border: none;
-    background-color: rgba(58, 58, 58, 0.521);
+    background-color: rgba(46, 46, 46, 0.705);
     color: white;
     font-size: clamp(.75rem, 1vw, 1.5rem);
-    padding: 10px, 20px;
+    padding: 10px;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -70,19 +70,20 @@
 
 /* Artist button selected effect */
 .artist-button.selected {
-    background-color: rgba(0,0,0,.9);
+    background-color: rgba(30, 215, 95, 0.801);
 }
 
 /* Playlist name user input text box styles */
 .playlist-name-input {
-    padding: 15px;
+    padding: 13px;
     margin-top: 20px;
-    border: 1px solid #ccc;
+    border: 4px solid #ccc;
     border-radius: 4px;
     font-size: clamp(1rem, 1.5vw, 2rem);
     height: 50%;
 }
 
+/* Generate playlist button styles */
 .generate-playlist-button {
     padding: 15px;
     background-color: #4CAF50;
@@ -93,6 +94,31 @@
     cursor: pointer;
 }
 
+/* Generate playlist button hover styles */
 .generate-playlist-button:hover {
     background-color: #45a049;
+}
+
+/* Generate playlist button disabled styles */
+.generate-playlist-button:disabled {
+    background-color: #055f11;
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 600px) {
+    .artist-buttons-container {
+        width: 100%; /* Make the container full-width */
+        justify-content: space-between; /* Adjust spacing */
+    }
+
+    .artist-button {
+        font-size: clamp(0.75rem, 4vw, 1rem); /* Larger font size for small screens */
+        padding: 12px; /* Slightly larger padding */
+        flex: 0 0 calc(50% - 20px); /* Full-width buttons for smaller screens */
+        margin-bottom: 10px; /* Add some space between wrapped buttons */
+    }
+
+    .playlist-name-input, .generate-playlist-button {
+        width: 100%; /* Full-width input and button */
+    }
 }

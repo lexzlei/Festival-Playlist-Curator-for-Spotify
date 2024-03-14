@@ -1,8 +1,10 @@
 package com.lexlei.festivalplaylistapp.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -14,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lexlei.festivalplaylistapp.Models.Festival;
-import com.lexlei.festivalplaylistapp.Repositories.ArtistRepository;
 import com.lexlei.festivalplaylistapp.Repositories.FestivalRepository;
 
 /**
@@ -26,12 +27,10 @@ import com.lexlei.festivalplaylistapp.Repositories.FestivalRepository;
 public class FestivalService {
 
     private final FestivalRepository festivalRepository;
-    private final ArtistRepository artistRepository;
 
     @Autowired
-    public FestivalService(FestivalRepository festivalRepository, ArtistRepository artistRepository) {
+    public FestivalService(FestivalRepository festivalRepository) {
         this.festivalRepository = festivalRepository;
-        this.artistRepository = artistRepository;
     }
 
     /**
@@ -86,7 +85,7 @@ public class FestivalService {
             Elements nameElement = festivalPage.select("#content > div > div > div.top-block > div.hubheadline > div > h1 > a");
             festival.setLocation(locationElement.first().text()); // Set location of the festival
             festival.setFestivalName(nameElement.first().text()); // Set name of the festival
-            List<String> artists = new ArrayList<>(); // Instantiate list of artists
+            Set<String> artistSet = new LinkedHashSet<>(); // Instantiate set of artists so no duplicates are added
             
             // Check if artist elements was found
             if (artistElements != null) {
@@ -94,18 +93,16 @@ public class FestivalService {
                 for (Element artistElement : artistElements) {
                     // Check if list item contains an <a> tag
                     if (artistElement.select("a").size() > 0) {
-                        artists.add(artistElement.select("a").first().text());
+                        artistSet.add(artistElement.select("a").first().text());
                     } else {
-                        artists.add(artistElement.text());
+                        artistSet.add(artistElement.text());
                     }
                 }
             } else {
                 System.out.println("No artists found");
             }
+            List<String> artists = new ArrayList<>(artistSet); // Conver set of artists into list
             festival.setArtists(artists);
-            //for (String artistName : artists) {
-                //System.out.println(artistName);
-            //}
         } catch (Exception e) {
             e.printStackTrace();
         }
