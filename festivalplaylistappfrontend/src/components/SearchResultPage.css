@@ -106,16 +106,27 @@
 
 /* Responsive adjustments for small screens */
 @media (max-width: 600px) {
+    .search-result {
+        padding: 25;
+    }
     .artist-buttons-container {
-        width: 100%; /* Make the container full-width */
-        justify-content: space-between; /* Adjust spacing */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding: 5px;
     }
 
     .artist-button {
-        font-size: clamp(0.75rem, 4vw, 1rem); /* Larger font size for small screens */
-        padding: 12px; /* Slightly larger padding */
-        flex: 0 0 calc(50% - 20px); /* Full-width buttons for smaller screens */
-        margin-bottom: 10px; /* Add some space between wrapped buttons */
+        font-size: clamp(0.6rem, 2vw, 0.8rem); /* Larger font size for small screens */
+        padding: 10px 5px; /* Slightly larger padding */
+        flex: 0 0 calc(25% - 10px); /* Full-width buttons for smaller screens */
+        margin-bottom: 5px; /* Add some space between wrapped buttons */
+        white-space: normal;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     .playlist-name-input, .generate-playlist-button {
