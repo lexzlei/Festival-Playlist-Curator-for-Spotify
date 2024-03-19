@@ -29,8 +29,6 @@ public class Festival {
     private String location; // Location of the festival
     private Integer year; // Year the festival is taking place
     private boolean isFound = true; // default to true
-
-    //@OneToMany(mappedBy = "festival")
     private List<String> artists; // Set of artists performing at the festival
 
     /**

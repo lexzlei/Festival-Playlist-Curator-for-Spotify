@@ -49,7 +49,7 @@ import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfi
 @RequestMapping("/api/spotify")
 public class SpotifyController {
     @Value("${custom.ip}")
-	private String customIp;
+	private String customIp = "https://www.festbeatsapp.com";
 
 	@Autowired
 	private SpotifyConfiguration spotifyConfiguration;

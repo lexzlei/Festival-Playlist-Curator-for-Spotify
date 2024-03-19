@@ -37,5 +37,4 @@ public class SpotifyUser implements Serializable {
     private String refreshToken; // Unique refresh token for Spotify Credentials
     @Column(name = "ref_id")
     private String refId; // Unique Spotify user reference ID
-
 }

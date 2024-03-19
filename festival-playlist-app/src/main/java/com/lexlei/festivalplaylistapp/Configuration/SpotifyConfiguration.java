@@ -2,7 +2,6 @@ package com.lexlei.festivalplaylistapp.Configuration;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import se.michaelthelin.spotify.SpotifyApi;
@@ -18,8 +17,6 @@ import se.michaelthelin.spotify.SpotifyHttpManager;
 public class SpotifyConfiguration {
     private String clientID = "dfeb4f7138d94975801924fe101a5c09"; // Spotify client ID
     private String clientSecret = "fddc9a0f00be4762b7d1084208c150a9"; // Spotify client secret
-    @Value("${redirect.server.ip}")
-    private String customIp; // IP value for the redirection
 
     /**
      * Creates and returns a configured SpotifyAPI Object for use throughout the backend.
@@ -28,7 +25,7 @@ public class SpotifyConfiguration {
      */
     public SpotifyApi getSpotifyObject() {
         // URI where Spotify will redirect the user after successful authentication
-        URI redirectURL = SpotifyHttpManager.makeUri(customIp + "/api/spotify/get-user-code");
+        URI redirectURL = SpotifyHttpManager.makeUri("https://www.festbeatsapp.com/api/spotify/get-user-code");
 
         // Create new instance of SpotifyApi object using it's builder pattern. 
         return new SpotifyApi 
