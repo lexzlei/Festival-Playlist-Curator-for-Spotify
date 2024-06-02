@@ -1,6 +1,6 @@
 # Music Festival Web Application
 
-This project is a full-stack web application that allows users to explore music festivals, view artist lineups, select artists of interest, and create custom playlists based on these selections. The application integrates with the Spotify API to fetch artist and song data and create playlists in the user's Spotify account.
+This project is a full-stack web application that allows users to explore music festivals, view artist lineups, select artists of interest, and create custom playlists based on these selections. The application integrates with the Spotify API to fetch artist and song data and create playlists to the user's Spotify account.
 
 ## Features
 
@@ -14,8 +14,8 @@ This project is a full-stack web application that allows users to explore music 
 
 ## Technologies Used
 
-- Frontend: React, HTML, CSS
-- Backend: Node.js, Spring Boot
+- Frontend: React, HTML, CSS, JavaScript
+- Backend: Node.js, Spring Boot, Java
 - Database: SQL
 - Additional Libraries: React Router
 
@@ -41,6 +41,7 @@ This project is a full-stack web application that allows users to explore music 
    ```bash
    cd frontend
    npm install
+   
 3. **Set up the backend**
 
    Navigate to the backend directory and follow the instructions to set up the Spring Boot application and the database.
