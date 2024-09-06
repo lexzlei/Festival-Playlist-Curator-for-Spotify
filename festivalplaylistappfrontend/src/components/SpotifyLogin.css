@@ -1,0 +1,85 @@
+/* SpotifyLogin.css */
+
+/* Main login page styles*/
+.login {
+    position: relative;
+    background-image: url("C:\Users\lordo\festival-playlist-app\festivalplaylistappfrontend\src\Photos\VideoCapture_20220522-143506 (1).jpg"); /* background image*/
+    background-size: cover;
+    background-position: center 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex;
+    backdrop-filter: blur(5px);
+    z-index: 11;
+  }
+
+  /* Semi transparent dark overlay for better text readability */
+  .login::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: -1; /* Ensures the overlay is behind the content */
+}
+
+/* Login page header styles */
+.login-header h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 5px;
+    font-size: clamp(1.5rem, 4vw, 5rem);
+}
+
+/* Login page paragraph styles */
+.login-header p {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
+}
+  
+
+/* Styling for the login button */
+.login button {
+    padding: 10px 20px;
+    font-size: clamp(1.5rem, 2vw, 4.5rem);
+    color: white;
+    background-color: #1DB954; /* Spotify green */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Change background color on hover for visual feedback */
+.login button:hover {
+    background-color: #1ed760;
+}
+
+/* Adding focus style for accessibility */
+.login button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(30, 215, 96, 0.5);
+}
+
+/* Login header styles */
+.login-header {
+    display: flex;
+    flex-direction: column; /* or 'row' based on layout */
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Login header image styles */
+.login-header img {
+    width: 30vw; /* Adjust as necessary */
+    height: auto;
+    max-width: 300px;
+    min-width: 50px;
+}

@@ -1,0 +1,23 @@
+/*Header.css*/
+
+/* Header container styles */
+.header-container {
+    background-color: rgba(197, 197, 197, 0.623); /* Translucent black */
+    width: 100%;
+    position: fixed; /* Makes the header stay at the top */
+    top: 0;
+    left: 0;
+    z-index: 10; /* Ensures the header is above other content */
+    display: flex;
+    justify-content: center; /* Center logo horizontally */
+    align-items: center; /* Center logo vertically */
+    padding: .1vh 0; /* Some padding */
+}
+
+/* Header container image styles */
+.header-container img {
+    width: 15vw; /* Adjust as necessary */
+    height: auto;
+    max-width: 150px;
+    min-width: 50px;
+}
