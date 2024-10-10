@@ -22,7 +22,8 @@ function SpotifyLogin() {
      * Makes a GET request to the backend which redirects to the Spotify login page.
      */
     const getSpotifyUserLogin = () => {
-        fetch("https://www.festbeatsapp.com/api/spotify/login")
+        fetch("http://localhost:8080/api/spotify/login")
+        //fetch("https://www.festbeatsapp.com/api/spotify/login")
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok' + response.statusText);
@@ -46,6 +47,7 @@ function SpotifyLogin() {
                 <p>Please login to Spotify below to continue:</p>
             </header>
             <button onClick={getSpotifyUserLogin}>Login With Spotify</button>
+            <footer>&copy; 2024 Festbeats</footer>
         </div>
     )
 }

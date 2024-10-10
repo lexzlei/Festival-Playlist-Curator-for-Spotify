@@ -23,7 +23,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
     z-index: -1; /* Ensures the overlay is behind the content */
 }
 
@@ -39,7 +39,7 @@
 .login-header p {
     text-align: center;
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: clamp(1.5rem, 2.5vw, 3rem);
 }
   
@@ -73,12 +73,12 @@
     flex-direction: column; /* or 'row' based on layout */
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 /* Login header image styles */
 .login-header img {
-    width: 30vw; /* Adjust as necessary */
+    width: 20vw; /* Adjust as necessary */
     height: auto;
     max-width: 300px;
     min-width: 50px;

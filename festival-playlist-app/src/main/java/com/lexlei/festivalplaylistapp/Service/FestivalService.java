@@ -8,6 +8,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -47,65 +52,110 @@ public class FestivalService {
         festival.setYear(year);
 
         // The URL based on user input into the musicfestivalwizard website
-        String searchUrl = "https://www.musicfestivalwizard.com/?s=" + 
-            festivalName + "+" + String.valueOf(year);
+        String searchUrl = "";
+            //"https://www.musicfestivalwizard.com/?s=" + 
+            //festivalName + "+" + String.valueOf(year);
         //System.out.println(searchUrl);
+
+        String driverPath = getClass().getClassLoader().getResource("chromedriver").getPath().replace("%20", " ");
+        
+        // Setting up Selenium WebDriver
+        System.setProperty("webdriver.chrome.driver", driverPath);
+        
+        // Set up ChromeOptions to enable headless mode
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new"); // Enable headless mode
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        
+        WebDriver driver = new ChromeDriver(options);
+
+        try {
+
+            // Navigate to the search page
+            driver.get("https://www.musicfestivalwizard.com/?s=Search");
+
+            // Find the search input field and enter the festival name
+            WebElement searchBox = driver.findElement(By.id("s"));
+            searchBox.sendKeys(festivalName);
+
+            // Wait for the dropdown to populate
+            Thread.sleep(500);
+
+            // Locate the first suggestion in the dropdown
+            List<WebElement> suggestions = driver.findElements(By.cssSelector(".suggestion-item"));
+            suggestions.get(0).click(); // Click the first suggestion
+
+            // Get the current URL after clicking the suggestion
+            searchUrl = driver.getCurrentUrl();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit(); // Close the browser session
+        }
 
         try {
             // parses the webpage into HTML
             // Need to use a userAgent because the webpage blocks scraper bots
-            Document doc = Jsoup.connect(searchUrl)
-                               .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)") 
-                               //.referrer("http://www.google.com")
-                               .get();
-
-            // Select the HTML link element using the CSS query which will give the correct URL to display the lineup
-            Element linkElement = doc.select("#artist-lineup-container > div > header > div > h2 > a").first();
-
-            String festivalPageUrl = ""; // Instantiate specific festival page url
-
-            // Check if the element was found
-            if (linkElement != null) {
-                // Extracting the href indicating the URL destination of the hyperlink element
-                festivalPageUrl = linkElement.attr("href");
-                System.out.println(festivalPageUrl);
-            } else {
-                System.out.println("No link found");
-                festival.setIsFound(false);
-                return festival;
-            }
-
-            Document festivalPage = Jsoup.connect(festivalPageUrl)
-                                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)") 
-                                        .get();
-
-            // Select the list elements containing festival info (artists, location, name)
-            Elements artistElements = festivalPage.select("#content > div > div > div.grids > div > div:nth-child(3) > div:nth-child(2) > div.lineupblock > div > ul > li"); 
-            Elements locationElement = festivalPage.select("#content > div > div > div.top-block > div.hubheadline > div > p:nth-child(3)");
-            Elements nameElement = festivalPage.select("#content > div > div > div.top-block > div.hubheadline > div > h1 > a");
-            festival.setLocation(locationElement.first().text()); // Set location of the festival
-            festival.setFestivalName(nameElement.first().text()); // Set name of the festival
-            Set<String> artistSet = new LinkedHashSet<>(); // Instantiate set of artists so no duplicates are added
+            if (!searchUrl.isEmpty()){
+                Document doc = Jsoup.connect(searchUrl)
+                                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)") 
+                                //.referrer("http://www.google.com")
+                                .get();
             
-            // Check if artist elements was found
-            if (artistElements != null) {
-                // Iterate through all list items in the element (artists)
-                for (Element artistElement : artistElements) {
-                    // Check if list item contains an <a> tag
-                    if (artistElement.select("a").size() > 0) {
-                        artistSet.add(artistElement.select("a").first().text());
-                    } else {
-                        artistSet.add(artistElement.text());
-                    }
+                // Select the HTML link element using the CSS query which will give the correct URL to display the lineup
+                Element linkElement = doc.select("#artist-lineup-container > div > header > div > h2 > a").first();
+
+                String festivalPageUrl = ""; // Instantiate specific festival page url
+
+                // Check if the element was found
+                if (linkElement != null) {
+                    // Extracting the href indicating the URL destination of the hyperlink element
+                    festivalPageUrl = linkElement.attr("href");
+                    System.out.println(festivalPageUrl);
+                } else {
+                    System.out.println("No link found");
+                    festival.setIsFound(false);
+                    return festival;
                 }
-            } else {
-                System.out.println("No artists found");
+
+                Document festivalPage = Jsoup.connect(festivalPageUrl)
+                                            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)") 
+                                            .get();
+
+                // Select the list elements containing festival info (artists, location, name)
+                Elements artistElements = festivalPage.select("#content > div > div > div.grids > div > div:nth-child(3) > div:nth-child(2) > div.lineupblock > div > ul > li"); 
+                Elements locationElement = festivalPage.select("#content > div > div > div.top-block > div.hubheadline > div > p:nth-child(3)");
+                Elements nameElement = festivalPage.select("#content > div > div > div.top-block > div.hubheadline > div > h1 > a");
+                festival.setLocation(locationElement.first().text()); // Set location of the festival
+                festival.setFestivalName(nameElement.first().text()); // Set name of the festival
+                Set<String> artistSet = new LinkedHashSet<>(); // Instantiate set of artists so no duplicates are added
+                
+                // Check if artist elements was found
+                if (artistElements != null) {
+                    // Iterate through all list items in the element (artists)
+                    for (Element artistElement : artistElements) {
+                        // Check if list item contains an <a> tag
+                        if (artistElement.select("a").size() > 0) {
+                            artistSet.add(artistElement.select("a").first().text());
+                        } else {
+                            artistSet.add(artistElement.text());
+                        }
+                    }
+                } else {
+                    System.out.println("No artists found");
+                }
+                List<String> artists = new ArrayList<>(artistSet); // Conver set of artists into list
+                festival.setArtists(artists);
             }
-            List<String> artists = new ArrayList<>(artistSet); // Conver set of artists into list
-            festival.setArtists(artists);
+            else {
+                System.out.println("No valid festival page URL found");
+                festival.setIsFound(false);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return festival; 
     }
 

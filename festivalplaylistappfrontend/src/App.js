@@ -18,6 +18,7 @@ function App() {
           <Route path="/playlist-created" element = {<PlaylistCreatedPage />} />
         </Routes>
       </div>
+      <footer>&copy; 2024 Festbeats</footer>
     </Router>
   )
 }

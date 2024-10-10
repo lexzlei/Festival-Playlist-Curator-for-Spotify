@@ -1,3 +1,7 @@
+# *OCTOBER 2024 UPDATE*
+
+The website I am using to scrape festival data has changed their search functionality, I am currently in the process of implementing Selenium to fix this issue. For now, users will not be able to search festival lineups. Hoping to get this resolved ASAP.
+
 # Music Festival Web Application
 
 This project is a full-stack web application that allows users to explore music festivals, view artist lineups, select artists of interest, and create custom playlists based on these selections. The application integrates with the Spotify API to fetch artist and song data and create playlists in the user's Spotify account.
@@ -26,6 +30,7 @@ This project is a full-stack web application that allows users to explore music 
 - Node.js
 - npm (Node Package Manager)
 - Java (for Spring Boot)
+- React
 - SQL database
 
 ### Installation
@@ -33,8 +38,8 @@ This project is a full-stack web application that allows users to explore music 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/lexzlei/Festival-Playlist-Curator-for-Spotify.git
+   cd Festival-Playlist-Curator-for-Spotify
 
 2. **Install Node.js dependencies**
 
@@ -48,7 +53,7 @@ This project is a full-stack web application that allows users to explore music 
 
 4. **Environment Variables**
 
-   Set up the required environment variables for both frontend and backend.
+   Set up the required environment variables (port 3000 for frontend, port 8080 for backend, database url) for both frontend and backend.
 
 ### Running the Application
 
