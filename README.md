@@ -73,10 +73,27 @@ This project is a full-stack web application that allows users to explore music 
 
 After starting the application, you can:
 
+- Read the homepage.
+
+![Homepage](screenshots/homescreen.png)
+
 - Register a new user account or log in with existing spotify credentials.
+
+![Login](screenshots/login.png)
+
 - Search for music festivals.
+
+![Search Page](screenshots/searchpage.png)
+
 - View artist lineups for selected festivals.
+
+![Lineup Page](screenshots/lineuppage.png)
+
 - Create and manage playlists based on selected artists.
+
+![Artist Selection and Playlist Name](screenshots/artistselection.png)
+![Success Page](screenshots/successpage.png)
+![Spotify Verification](screenshots/spotifyplaylist.png)
 
 ## Contact
 
