@@ -2,6 +2,8 @@
 
 The website I am using to scrape festival data has changed their search functionality, I am currently in the process of implementing Selenium to fix this issue. For now, users will not be able to search festival lineups. Hoping to get this resolved ASAP.
 
+[FestBeatsApp.com](https://www.festbeatsapp.com/)
+
 # Music Festival Web Application
 
 This project is a full-stack web application that allows users to explore music festivals, view artist lineups, select artists of interest, and create custom playlists based on these selections. The application integrates with the Spotify API to fetch artist and song data and create playlists in the user's Spotify account.
@@ -92,7 +94,9 @@ After starting the application, you can:
 - Create and manage playlists based on selected artists.
 
 ![Artist Selection and Playlist Name](screenshots/artistselection.png)
+
 ![Success Page](screenshots/successpage.png)
+
 ![Spotify Verification](screenshots/spotifyplaylist.png)
 
 ## Contact
