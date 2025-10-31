@@ -1,4 +1,4 @@
-# *OCTOBER 2024 UPDATE*
+# *OCTOBER 2025 UPDATE*
 
 The website I am using to scrape festival data has changed their search functionality, I am currently in the process of implementing Selenium to fix this issue. For now, users will not be able to search festival lineups. Hoping to get this resolved ASAP.
 
